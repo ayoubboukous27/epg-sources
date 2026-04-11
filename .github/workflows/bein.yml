@@ -32,98 +32,45 @@ jobs:
           cd epg
           npm install
 
-      - name: 🔧 Create map_id.py for bein.com
-        run: |
-          mkdir -p epg/sites/bein.com
-          cat > epg/sites/bein.com/map_id.py << 'EOF'
-          #!/usr/bin/env python3
-          
-          def map_id(site_id, lang):
-              # قاموس تحويل الأرقام إلى أسماء القنوات
-              channel_names = {
-                  # قنوات الرياضة
-                  "sports#1": "beIN Sports News",
-                  "sports#2": "beIN Sports",
-                  "sports#3": "beIN Sports 1",
-                  "sports#4": "beIN Sports 2",
-                  "sports#5": "beIN Sports 3",
-                  "sports#6": "beIN Sports 4",
-                  "sports#7": "beIN Sports 5",
-                  "sports#8": "beIN Sports 6",
-                  "sports#9": "beIN Sports 7",
-                  "sports#10": "beIN Sports Premium 1",
-                  "sports#11": "beIN Sports Premium 2",
-                  "sports#12": "beIN Sports Premium 3",
-                  "sports#13": "beIN Sports Xtra 1",
-                  "sports#14": "beIN Sports Xtra 2",
-                  "sports#15": "beIN 4K",
-                  "sports#16": "beIN Sports AFC",
-                  "sports#17": "beIN Sports AFC 1",
-                  "sports#18": "beIN Sports AFC 2",
-                  "sports#19": "beIN Sports AFC 3",
-                  "sports#20": "beIN Sports English 1",
-                  "sports#21": "beIN Sports English 2",
-                  "sports#22": "beIN Sports English 3",
-                  "sports#23": "beIN Sports NBA",
-                  "sports#24": "beIN Sports French 1",
-                  "sports#25": "beIN Sports French 2",
-                  "sports#26": "beIN Sports French 3",
-                  "sports#27": "beIN Sports Max 1",
-                  "sports#28": "beIN Sports Max 2",
-                  "sports#29": "beIN Sports Max 3",
-                  "sports#30": "beIN Sports Max 4",
-                  "sports#31": "beIN Sports Max 5",
-                  "sports#32": "beIN Sports Max 6",
-                  "sports#33": "beIN Sports 33",
-                  "sports#34": "beIN Sports 34",
-                  "sports#35": "beIN Sports 35",
-                  "sports#36": "beIN Sports 36",
-                  "sports#37": "beIN Sports 37",
-                  
-                  # قنوات الترفيه والأفلام
-                  "entertainment#1": "beIN Movies 1",
-                  "entertainment#2": "beIN Movies 2",
-                  "entertainment#3": "beIN Movies 3",
-                  "entertainment#4": "beIN Movies 4",
-                  "entertainment#5": "Fox Movies",
-                  "entertainment#6": "Fox Action Movies",
-                  "entertainment#7": "Star Movies",
-                  "entertainment#8": "beIN Series 1",
-                  "entertainment#9": "beIN Series 2",
-                  "entertainment#10": "beIN Drama 1",
-                  "entertainment#11": "beIN Gourmet",
-                  "entertainment#12": "Travel Channel",
-                  "entertainment#13": "Fox Arabia",
-                  "entertainment#14": "Food Network",
-                  "entertainment#15": "HGTV Arabia",
-                  "entertainment#16": "Star World",
-                  "entertainment#17": "Fatafeat",
-                  "entertainment#18": "Fox Life",
-                  "entertainment#19": "MTV 80s",
-                  "entertainment#20": "MTV 90s",
-                  "entertainment#21": "Club MTV",
-                  "entertainment#22": "Bloomberg TV",
-                  "entertainment#23": "National Geographic",
-                  "entertainment#24": "Nat Geo Wild",
-                  "entertainment#25": "BBC Earth",
-                  "entertainment#26": "CNN Arabic",
-                  "entertainment#27": "Euronews",
-                  "entertainment#28": "Discovery Channel",
-                  "entertainment#29": "BeJunior",
-                  "entertainment#30": "Jeem TV",
-                  "entertainment#31": "Baraem",
-                  "entertainment#32": "Cartoon Network",
-                  "entertainment#33": "Cartoon Network Arabic"
-              }
-              
-              # إرجاع الاسم المخصص، أو المعرف الأصلي إذا لم يوجد
-              return channel_names.get(site_id, site_id)
-          EOF
-
       - name: ▶️ Run grab for bein.com (7 days)
         run: |
           cd epg
           npm run grab -- --site=bein.com --lang=en --days=7
+
+      - name: 🔧 Fix XML to use channel id as display-name
+        run: |
+          cd epg
+          
+          # استخدام Python لتعديل ملف guide.xml
+          python3 << 'PYTHON_SCRIPT'
+          import xml.etree.ElementTree as ET
+          import re
+          
+          # قراءة ملف guide.xml
+          tree = ET.parse('guide.xml')
+          root = tree.getroot()
+          
+          # تعديل كل قناة: جعل display-name نفس الـ id
+          for channel in root.findall('channel'):
+              channel_id = channel.get('id', '')
+              
+              # حذف جميع display-name الموجودة
+              for display_name in channel.findall('display-name'):
+                  channel.remove(display_name)
+              
+              # إضافة display-name جديد بنفس الـ id
+              display_name = ET.SubElement(channel, 'display-name')
+              display_name.text = channel_id
+              
+              # إضافة display-name بالعربية (نفس الرقم)
+              display_name_ar = ET.SubElement(channel, 'display-name')
+              display_name_ar.text = channel_id
+              display_name_ar.set('lang', 'ar')
+          
+          # حفظ الملف المعدل
+          ET.indent(tree, space='  ')
+          tree.write('guide.xml', encoding='UTF-8', xml_declaration=True)
+          PYTHON_SCRIPT
 
       - name: 📂 Copy guide.xml to public
         run: |
@@ -138,7 +85,7 @@ jobs:
           git add public/bein_epg.xml
 
           if ! git diff --cached --quiet; then
-            git commit -m "Update beIN EPG with mapped channel names (7 days)"
+            git commit -m "Update beIN EPG (7 days)"
           fi
 
           # تحديد اسم الفرع الصحيح تلقائياً
