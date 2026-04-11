@@ -141,5 +141,8 @@ jobs:
             git commit -m "Update beIN EPG with mapped channel names (7 days)"
           fi
 
-          git pull --rebase origin main
-          git push origin main
+          # تحديد اسم الفرع الصحيح تلقائياً
+          BRANCH=$(git rev-parse --abbrev-ref HEAD)
+          
+          git pull --rebase origin $BRANCH
+          git push origin $BRANCH
