@@ -6853,11 +6853,11 @@
     <title lang="en">FAR Rabat (MAR) CR vs RSB Berkane (MAR) - CAF Champions League 2025/26</title>
     <category lang="en">CAF Champions league</category>
   </programme>
-  <programme start="20260411213000 +0000" stop="20260411231500 +0000" channel="beINSports1.qa@MENA">
+  <programme start="20260411213000 +0000" stop="20260411231700 +0000" channel="beINSports1.qa@MENA">
     <title lang="en">Norwich City vs Ipswich Town - EFL</title>
     <category lang="en">English League - Championship</category>
   </programme>
-  <programme start="20260411231500 +0000" stop="20260412021500 +0000" channel="beINSports1.qa@MENA">
+  <programme start="20260411231700 +0000" stop="20260412021500 +0000" channel="beINSports1.qa@MENA">
     <title lang="en">USMA (ALG) vs Olympic Safi (MAR) - SF2</title>
     <category lang="en">CAF Confederation Cup</category>
   </programme>
@@ -7001,7 +7001,7 @@
     <title lang="en">Olympique Marseille vs Metz - French Ligue 1 2025/2026 Week 29</title>
     <category lang="en">French League - Ligue 1</category>
   </programme>
-  <programme start="20260410210000 +0000" stop="20260410224500 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260410210000 +0000" stop="20260410225600 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">Burnley vs Brighton &amp; Hove Albion - English Premier League 2025/2026 Week 32</title>
     <category lang="en">English Premier League</category>
   </programme>
@@ -7009,7 +7009,7 @@
     <title lang="en">Shakhtar Donetsk vs AZ Alkmaar - UEFA Conference League 2025/2026</title>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260410224500 +0000" stop="20260411003000 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260410225600 +0000" stop="20260411003800 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">Sevilla vs Atlético de Madrid - Spanish LaLiga 2025/26</title>
     <category lang="en">Spanish League - Primera División</category>
   </programme>
@@ -7017,7 +7017,7 @@
     <title lang="en">Mainz 05 vs Strasbourg - UEFA Conference League 2025/2026</title>
     <category lang="en">UEFA Europa League</category>
   </programme>
-  <programme start="20260411003000 +0000" stop="20260411010000 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260411003800 +0000" stop="20260411010000 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">MA Super Ligue 1</title>
     <category lang="en">Sports General</category>
   </programme>
@@ -7033,7 +7033,7 @@
     <title lang="en">Deportivo Cuenca (ECU) vs Santos (BRA) - Conmebol Sudamericana Group Stage</title>
     <category lang="en">Copa Sudamericana</category>
   </programme>
-  <programme start="20260411024500 +0000" stop="20260411043000 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260411024500 +0000" stop="20260411043200 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">Olympique Marseille vs Metz - French Ligue 1 2025/2026 Week 29</title>
     <category lang="en">French League - Ligue 1</category>
   </programme>
@@ -7041,7 +7041,7 @@
     <title lang="en">Junior (COL) vs Palmeiras (BRA) - Copa Libertadores 2026</title>
     <category lang="en">Copa Libertadores</category>
   </programme>
-  <programme start="20260411043000 +0000" stop="20260411050000 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260411043200 +0000" stop="20260411050000 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">Ligue 1 Weekly Review - 2025/2026</title>
     <category lang="en">Leagues Summary</category>
   </programme>
@@ -7081,11 +7081,11 @@
     <title lang="en">Junior (COL) vs Palmeiras (BRA) - Copa Libertadores 2026</title>
     <category lang="en">Copa Libertadores</category>
   </programme>
-  <programme start="20260411104500 +0000" stop="20260411111500 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260411104500 +0000" stop="20260411111400 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">Ligue 1 Weekly Review - 2025/2026</title>
     <category lang="en">Leagues Summary</category>
   </programme>
-  <programme start="20260411111500 +0000" stop="20260411113500 +0000" channel="beINSports2.qa@MENA">
+  <programme start="20260411111400 +0000" stop="20260411113500 +0000" channel="beINSports2.qa@MENA">
     <title lang="en">MA Super Ligue 1</title>
     <category lang="en">Sports General</category>
   </programme>
@@ -7549,67 +7549,19 @@
     <title lang="en">Portsmouth vs Ipswich - EFL</title>
     <category lang="en">English League - Championship</category>
   </programme>
-  <programme start="20260409210000 +0000" stop="20260409224500 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260409224500 +0000" stop="20260410001500 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410001500 +0000" stop="20260410015000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">POL vs UKR - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410015000 +0000" stop="20260410030000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">POL vs UKR - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410030000 +0000" stop="20260410050000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">Platense (ARG) vs Corinthians (BRA) - Copa Libertadores 2026</title>
-    <category lang="en">Copa Libertadores</category>
-  </programme>
-  <programme start="20260410050000 +0000" stop="20260410070000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">Mainz 05 vs Strasbourg - UEFA Conference League 2025/2026</title>
-    <category lang="en">UEFA Europa League</category>
-  </programme>
-  <programme start="20260410070000 +0000" stop="20260410090000 +0000" channel="beINSports4.qa@MENA">
+  <programme start="20260410185000 +0000" stop="20260411141500 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">West Bromwich Albion vs Millwall - EFL</title>
     <category lang="en">English League - Championship</category>
   </programme>
-  <programme start="20260410090000 +0000" stop="20260410110000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Doubles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410110000 +0000" stop="20260410130000 +0000" channel="beINSports4.qa@MENA">
+  <programme start="20260410210000 +0000" stop="20260410231000 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">ITA vs JPN - Singles</title>
     <category lang="en">Tennis</category>
   </programme>
-  <programme start="20260410130000 +0000" stop="20260410150000 +0000" channel="beINSports4.qa@MENA">
+  <programme start="20260410231000 +0000" stop="20260411011000 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">ITA vs JPN - Singles</title>
     <category lang="en">Tennis</category>
   </programme>
-  <programme start="20260410150000 +0000" stop="20260410165000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">West Bromwich Albion vs Millwall - EFL</title>
-    <category lang="en">English League - Championship</category>
-  </programme>
-  <programme start="20260410165000 +0000" stop="20260410190000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">Auxerre vs Nantes - French Ligue 1 2025/2026 Week 29</title>
-    <category lang="en">French League - Ligue 1</category>
-  </programme>
-  <programme start="20260410190000 +0000" stop="20260410190000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Doubles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410210000 +0000" stop="20260410230000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260410230000 +0000" stop="20260411010000 +0000" channel="beINSports4.qa@MENA">
-    <title lang="en">ITA vs JPN - Singles</title>
-    <category lang="en">Tennis</category>
-  </programme>
-  <programme start="20260411010000 +0000" stop="20260411030000 +0000" channel="beINSports4.qa@MENA">
+  <programme start="20260411011000 +0000" stop="20260411030000 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">Auxerre vs Nantes - French Ligue 1 2025/2026 Week 29</title>
     <category lang="en">French League - Ligue 1</category>
   </programme>
@@ -7640,6 +7592,10 @@
   <programme start="20260411135000 +0000" stop="20260411160000 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">Luton Town vs Stockport County - EFL Vertu Trophy Final</title>
     <category lang="en">English League - Championship</category>
+  </programme>
+  <programme start="20260411141500 +0000" stop="20260411141500 +0000" channel="beINSports4.qa@MENA">
+    <title lang="en">Houston - Stories From the City</title>
+    <category lang="en">Sports General</category>
   </programme>
   <programme start="20260411160000 +0000" stop="20260411180000 +0000" channel="beINSports4.qa@MENA">
     <title lang="en">AUS vs GBR - Billie Jean King Cup Qualifiers</title>
@@ -9793,11 +9749,11 @@
     <title lang="en">Newcastle United vs. Sunderland - English Premier League 2026/2027</title>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260411162000 +0000" stop="20260411181100 +0000" channel="beINSportsAFC.qa@SD">
+  <programme start="20260411162000 +0000" stop="20260411183000 +0000" channel="beINSportsAFC.qa@SD">
     <title lang="en">Liverpool vs. Fulham - English Premier League 2026/2027</title>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260411181100 +0000" stop="20260411195700 +0000" channel="beINSportsAFC.qa@SD">
+  <programme start="20260411183000 +0000" stop="20260411195700 +0000" channel="beINSportsAFC.qa@SD">
     <title lang="en">Arsenal vs. A.F.C. Bournemouth - English Premier League 2026/2027</title>
     <category lang="en">English Premier League</category>
   </programme>
@@ -14013,11 +13969,11 @@
     <title lang="en">CAF Champions League 2025/26 - Esperance and Mamelodi .. Road to the Semi Final</title>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260411223000 +0000" stop="20260412010000 +0000" channel="beINSportsNews.qa@SD">
+  <programme start="20260411223000 +0000" stop="20260412010100 +0000" channel="beINSportsNews.qa@SD">
     <title lang="en">Arsenal vs a.f.c. Bournemouth - English Premier League 2025/2026 Week 32</title>
     <category lang="en">English Premier League</category>
   </programme>
-  <programme start="20260412010000 +0000" stop="20260412034500 +0000" channel="beINSportsNews.qa@SD">
+  <programme start="20260412010100 +0000" stop="20260412034500 +0000" channel="beINSportsNews.qa@SD">
     <title lang="en">Brentford vs Everton - English Premier League 2025/2026 Week 32</title>
     <category lang="en">English Premier League</category>
   </programme>
@@ -15697,11 +15653,11 @@
     <title lang="en">AUS vs GBR - Billie Jean King Cup Qualifiers</title>
     <category lang="en">Tennis</category>
   </programme>
-  <programme start="20260411210500 +0000" stop="20260411213000 +0000" channel="beINSportsXtra1.qa@SD">
+  <programme start="20260411210500 +0000" stop="20260411213500 +0000" channel="beINSportsXtra1.qa@SD">
     <title lang="en">EN One Weekly 2026 - Ep 15</title>
     <category lang="en">Sports General</category>
   </programme>
-  <programme start="20260411213000 +0000" stop="20260411220000 +0000" channel="beINSportsXtra1.qa@SD">
+  <programme start="20260411213500 +0000" stop="20260411220000 +0000" channel="beINSportsXtra1.qa@SD">
     <title lang="en">EN MLB Plays of the Week 2026 | E1</title>
     <category lang="en">Series</category>
   </programme>
