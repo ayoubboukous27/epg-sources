@@ -1,8 +1,8 @@
-name: Grab beIN Sports MENA AR EPG
+name: Grab beIN Sports MENA AR EPG (full programs)
 
 on:
   schedule:
-    - cron: "0 5 * * *"  # تحديث يوميًا الساعة 05:00 UTC
+    - cron: "0 5 * * *"
   workflow_dispatch:
 
 permissions:
@@ -13,68 +13,43 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # --------------------------
-      # Checkout repository
-      # --------------------------
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      # --------------------------
-      # Setup Node.js (latest stable)
-      # --------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: "20"
 
-      # --------------------------
-      # Clone iptv-org/epg repository
-      # --------------------------
       - name: Clone iptv-org/epg
         run: |
           if [ ! -d "epg" ]; then
             git clone --depth 1 https://github.com/iptv-org/epg.git
           else
             git -C epg pull
-          fi
 
-      # --------------------------
-      # Install dependencies
-      # --------------------------
       - name: Install dependencies
         run: |
           cd epg
           npm install
 
-      # --------------------------
-      # Grab beIN Sports MENA AR EPG
-      # --------------------------
-      - name: Grab EPG
+      - name: Grab beIN Sports MENA AR EPG
         run: |
           cd epg
           CHANNEL_FILE="sites/beinsports.com/beinsports.com_mena-ar.channels.xml"
           npm run grab --- --channels=$CHANNEL_FILE
-          npm run channels:parse --- --config=./sites/beinsports.com/beinsports.com.config.js \
-            --output=./sites/beinsports.com/beinsports.com_mena-ar.channels.xml \
-            --set=region:mena --set=lang:ar
 
-      # --------------------------
-      # Save XML output
-      # --------------------------
-      - name: Save XML
+      - name: Save guide.xml
         run: |
           mkdir -p public
-          cp epg/sites/beinsports.com/beinsports.com_mena-ar.channels.xml public/epg-bein-mena-ar.xml
-          echo "✅ EPG saved to public/epg-bein-mena-ar.xml"
+          cp epg/guide.xml public/epg-bein-mena-ar.xml
+          echo "✅ Full EPG saved to public/epg-bein-mena-ar.xml"
 
-      # --------------------------
-      # Commit & Push
-      # --------------------------
       - name: Commit & Push
         run: |
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add public/epg-bein-mena-ar.xml
-          git diff-index --quiet HEAD || git commit -m "Update beIN Sports MENA AR EPG (with channel names)"
+          git diff-index --quiet HEAD || git commit -m "Update full beIN Sports MENA AR EPG"
           git pull --rebase origin master
           git push origin master
