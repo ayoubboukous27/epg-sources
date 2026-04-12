@@ -1,4 +1,4 @@
-name: Grab beIN Sports MENA AR EPG (full programs)
+name: Grab beIN Sports MENA AR EPG (7 days)
 
 on:
   schedule:
@@ -47,13 +47,13 @@ jobs:
           npm install
 
       # --------------------------
-      # Grab beIN Sports MENA AR EPG (full programs)
+      # Grab beIN Sports MENA AR EPG (7 days)
       # --------------------------
       - name: Grab beIN Sports MENA AR EPG
         run: |
           cd epg
           CHANNEL_FILE="sites/beinsports.com/beinsports.com_mena-ar.channels.xml"
-          npm run grab --- --channels=$CHANNEL_FILE
+          npm run grab --- --channels=$CHANNEL_FILE --days=7
 
       # --------------------------
       # Save guide.xml
@@ -62,7 +62,7 @@ jobs:
         run: |
           mkdir -p public
           cp epg/guide.xml public/epg-bein-mena-ar.xml
-          echo "✅ Full EPG saved to public/epg-bein-mena-ar.xml"
+          echo "✅ Full 7-day EPG saved to public/epg-bein-mena-ar.xml"
 
       # --------------------------
       # Commit & Push
@@ -72,6 +72,6 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add public/epg-bein-mena-ar.xml
-          git diff-index --quiet HEAD || git commit -m "Update full beIN Sports MENA AR EPG"
+          git diff-index --quiet HEAD || git commit -m "Update full 7-day beIN Sports MENA AR EPG"
           git pull --rebase origin master
           git push origin master
