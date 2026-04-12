@@ -1,4 +1,4 @@
-name: Grab beIN Sports MENA AR EPG (7 days)
+name: Grab beIN Sports MENA AR EPG (7 days + logos)
 
 on:
   schedule:
@@ -65,6 +65,43 @@ jobs:
           echo "✅ Full 7-day EPG saved to public/epg-bein-mena-ar.xml"
 
       # --------------------------
+      # Add custom channel logos
+      # --------------------------
+      - name: Add custom beIN Sports logos
+        run: |
+          node <<'EOF'
+          const fs = require('fs');
+          const path = 'public/epg-bein-mena-ar.xml';
+          let xml = fs.readFileSync(path, 'utf8');
+
+          const logos = {
+            "beINSports1.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/6/6c/1-HD.png",
+            "beINSports2.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/5/51/2-HD.png",
+            "beINSports3.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/f/fe/3-HD.png",
+            "beINSports4.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/d/d1/4-HD.png",
+            "beINSports5.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/f/f5/5-HD.png",
+            "beINSports6.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/1/1d/6-HD.png",
+            "beINSports7.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/2/27/7-HD.png",
+            "beINSports8.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/c/cf/8-HD.png",
+            "beINSports9.qa@MENA": "https://upload.wikimedia.org/wikipedia/commons/2/2f/9-HD.png"
+          };
+
+          xml = xml.replace(/(<channel[^>]*xmltv_id="([^"]+)"[^>]*>)([\s\S]*?)(<\/channel>)/gi,
+            (match, start, xmltv_id, middle, end) => {
+              if (logos[xmltv_id]) {
+                // إزالة أي شعار موجود مسبقًا
+                let cleaned = middle.replace(/<icon[^>]*\/>/gi, '');
+                return `${start}<icon src="${logos[xmltv_id]}"/>${cleaned}${end}`;
+              }
+              return match;
+            }
+          );
+
+          fs.writeFileSync(path, xml);
+          console.log('✅ Custom logos applied');
+          EOF
+
+      # --------------------------
       # Commit & Push
       # --------------------------
       - name: Commit & Push
@@ -72,6 +109,6 @@ jobs:
           git config user.name "github-actions"
           git config user.email "actions@github.com"
           git add public/epg-bein-mena-ar.xml
-          git diff-index --quiet HEAD || git commit -m "Update full 7-day beIN Sports MENA AR EPG"
+          git diff-index --quiet HEAD || git commit -m "Update beIN Sports MENA AR EPG (7 days + logos)"
           git pull --rebase origin master
           git push origin master
