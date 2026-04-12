@@ -1,130 +1,80 @@
-name: Grab EPG from beIN Sports MENA
+name: Grab beIN Sports MENA AR EPG (with channel names)
 
 on:
   schedule:
-    - cron: '0 */6 * * *'
+    - cron: "0 5 * * *"  # تحديث يوميًا الساعة 05:00 UTC
   workflow_dispatch:
 
 permissions:
   contents: write
 
 jobs:
-  grab-epg:
+  grab_bein_mena_ar:
     runs-on: ubuntu-latest
-    
+
     steps:
-      - name: Checkout repository (for output)
+      # --------------------------
+      # Checkout repository
+      # --------------------------
+      - name: Checkout repository
         uses: actions/checkout@v4
-        with:
-          persist-credentials: true
-          fetch-depth: 0
-      
+
+      # --------------------------
+      # Setup Node.js
+      # --------------------------
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: '20'
-      
-      - name: Install epg-grabber
-        run: npm install -g epg-grabber
-      
-      - name: Create output directory
-        run: mkdir -p ./sites/bein.com
-      
-      - name: Download channels file only
+          node-version: "20"
+
+      # --------------------------
+      # Clone iptv-org/epg repository
+      # --------------------------
+      - name: Clone iptv-org/epg
         run: |
-          echo "📥 Downloading channels file from GitHub..."
-          curl -H "Accept: application/vnd.github.v3.raw" \
-               -L "https://github.com/ayoubboukous27/epg-sources/raw/master/sites/beinsports.com/beinsports.com_mena-ar.channels.xml" \
-               -o ./sites/bein.com/beinsports.com_mena-ar.channels.xml
-          
-          if [ -f "./sites/bein.com/beinsports.com_mena-ar.channels.xml" ]; then
-            echo "✅ File downloaded successfully"
-            ls -la ./sites/bein.com/beinsports.com_mena-ar.channels.xml
-            head -20 ./sites/bein.com/beinsports.com_mena-ar.channels.xml
+          if [ ! -d "epg" ]; then
+            git clone --depth 1 https://github.com/iptv-org/epg.git
           else
-            echo "❌ Failed to download file"
-            exit 1
-          fi
-      
-      - name: Convert channels XML to config.json
+            git -C epg pull
+
+      # --------------------------
+      # Install dependencies
+      # --------------------------
+      - name: Install dependencies
         run: |
-          cat > ./sites/bein.com/convert.js << 'EOF'
-          const fs = require('fs');
-          
-          // قراءة ملف القنوات الذي تم تحميله
-          const channelsXml = fs.readFileSync('./sites/bein.com/beinsports.com_mena-ar.channels.xml', 'utf8');
-          
-          // استخراج القنوات باستخدام Regex بسيط
-          const channelRegex = /<channel[^>]*site_id="([^"]+)"[^>]*xmltv_id="([^"]*)"[^>]*lang="([^"]+)"[^>]*>([^<]+)<\/channel>/g;
-          const channels = [];
-          let match;
-          
-          while ((match = channelRegex.exec(channelsXml)) !== null) {
-            const siteId = match[1];
-            const xmltvId = match[2];
-            const lang = match[3];
-            const name = match[4].trim();
-            
-            // استخدام xmltv_id إن وجد، وإلا استخدام site_id
-            const channelId = xmltvId && xmltvId !== "" ? xmltvId : siteId;
-            
-            if (channelId && name) {
-              channels.push({
-                id: channelId,
-                name: name,
-                lang: lang
-              });
-              console.log(`Found: ${channelId} -> ${name} (${lang})`);
-            }
-          }
-          
-          console.log(`\n📺 Total channels found: ${channels.length}`);
-          
-          // بناء config.json لـ epg-grabber
-          const config = {
-            site: "beinsports.com",
-            lang: "ar",
-            output: "./sites/bein.com/epg.xml",
-            channels: channels.map(ch => ({ id: ch.id, name: ch.name }))
-          };
-          
-          fs.writeFileSync('./sites/bein.com/config.json', JSON.stringify(config, null, 2));
-          console.log('\n✅ config.json created successfully');
-          console.log('📋 Config preview:');
-          console.log(JSON.stringify(config, null, 2).slice(0, 500));
-          EOF
-          
-          node ./sites/bein.com/convert.js
-      
-      - name: Run epg-grabber
+          cd epg
+          npm install
+
+      # --------------------------
+      # Grab beIN Sports MENA AR EPG using channel names
+      # --------------------------
+      - name: Grab EPG
         run: |
-          echo "🚀 Running epg-grabber..."
-          epg-grabber --config ./sites/bein.com/config.json \
-                      --site=beinsports.com \
-                      --lang=ar \
-                      --output=./sites/bein.com/epg.xml
-      
-      - name: Verify EPG file
+          cd epg
+          # استخدم ملف القنوات الرسمي كمرجع للأسماء
+          CHANNEL_FILE="sites/beinsports.com/beinsports.com_mena-ar.channels.xml"
+          npm run grab --- --channels=$CHANNEL_FILE
+          npm run channels:parse --- --config=./sites/beinsports.com/beinsports.com.config.js \
+            --output=./sites/beinsports.com/beinsports.com_mena-ar.channels.xml \
+            --set=region:mena --set=lang:ar
+
+      # --------------------------
+      # Save XML output
+      # --------------------------
+      - name: Save XML
         run: |
-          if [ -f "./sites/bein.com/epg.xml" ]; then
-            echo "✅ EPG file created successfully"
-            echo "📄 File size: $(wc -c < ./sites/bein.com/epg.xml) bytes"
-            echo "📄 Line count: $(wc -l < ./sites/bein.com/epg.xml)"
-            ls -la ./sites/bein.com/
-          else
-            echo "❌ EPG file not created"
-            exit 1
-          fi
-      
-      - name: Configure Git
+          mkdir -p public
+          cp epg/sites/beinsports.com/beinsports.com_mena-ar.channels.xml public/epg-bein-mena-ar.xml
+          echo "✅ EPG saved to public/epg-bein-mena-ar.xml (using channel names from reference file)"
+
+      # --------------------------
+      # Commit & Push
+      # --------------------------
+      - name: Commit & Push
         run: |
-          git config --global user.name "github-actions[bot]"
-          git config --global user.email "github-actions[bot]@users.noreply.github.com"
-      
-      - name: Commit and push changes
-        run: |
-          git add ./sites/bein.com/epg.xml
-          git add ./sites/bein.com/config.json
-          git add ./sites/bein.com/beinsports.com_mena-ar.channels.xml
-          git diff --staged --quiet || git commit -m "🤖 Update EPG from beIN Sports MENA [skip ci]"
-          git push
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add public/epg-bein-mena-ar.xml
+          git diff-index --quiet HEAD || git commit -m "Update beIN Sports MENA AR EPG (with channel names)"
+          git pull --rebase origin main
+          git push origin main
