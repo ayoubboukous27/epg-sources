@@ -1,4 +1,4 @@
-name: Grab beIN Sports MENA AR EPG (7 days with logos)
+name: Grab beIN Sports MENA AR EPG with Logos
 
 on:
   schedule:
@@ -47,56 +47,56 @@ jobs:
           npm install
 
       # --------------------------
-      # Grab beIN Sports MENA AR EPG (7 days)
+      # Grab beIN Sports MENA AR EPG
       # --------------------------
       - name: Grab beIN Sports MENA AR EPG
         run: |
           cd epg
-          npm run grab --- --site=beinsports.com --channels=sites/beinsports.com/beinsports.com_mena-ar.channels.xml --days=7
+          npm run grab --- --channels=sites/beinsports.com/beinsports.com_mena-ar.channels.xml
+          npm run channels:parse --- --config=./sites/beinsports.com/beinsports.com.config.js \
+            --output=./sites/beinsports.com/beinsports.com_mena-ar.channels.xml \
+            --set=region:mena --set=lang:ar
 
       # --------------------------
-      # Save guide.xml as public EPG
+      # Apply logos by site_id
       # --------------------------
-      - name: Save guide.xml
+      - name: Add Logos by site_id
+        run: |
+          node << 'EOF'
+          const fs = require('fs');
+          let xml = fs.readFileSync('epg/guide.xml', 'utf8');
+
+          const logos = {
+            "7836FEA9-6B39-4A1A-8352-DC5FCB97A16C": "https://upload.wikimedia.org/wikipedia/commons/6/6c/1-HD.png",
+            "008F0EA9-FCD9-4E8C-849A-913979E7450A": "https://upload.wikimedia.org/wikipedia/commons/5/51/2-HD.png",
+            "8AEA2426-D451-4BA5-BF48-114A1F04B1A8": "https://upload.wikimedia.org/wikipedia/commons/f/fe/3-HD.png",
+            "42680C3C-580F-43DA-BDD8-02651BD10F32": "https://upload.wikimedia.org/wikipedia/commons/d/d1/4-HD.png",
+            "964E6246-CA95-410B-82C4-EA75DD979435": "https://upload.wikimedia.org/wikipedia/commons/f/f5/5-HD.png",
+            "2BF668DF-1B76-4199-88CE-8691FD86AD8C": "https://upload.wikimedia.org/wikipedia/commons/1/1d/6-HD.png",
+            "A892063B-A5D9-4199-95AC-6A214515FA6B": "https://upload.wikimedia.org/wikipedia/commons/2/27/7-HD.png",
+            "0F8D20A4-D46C-4B18-9242-8E7B3E978FF8": "https://upload.wikimedia.org/wikipedia/commons/c/cf/8-HD.png",
+            "5C08D9D3-C713-4F1F-947E-87C761428B9B": "https://upload.wikimedia.org/wikipedia/commons/2/2f/9-HD.png"
+          };
+
+          xml = xml.replace(/(<channel[^>]*site_id="([^"]+)".*?>)/gi, (match, start, id) => {
+            if (logos[id]) {
+              return start.replace(/>$/, `><icon src="${logos[id]}"/>`);
+            }
+            return match;
+          });
+
+          fs.writeFileSync('epg/guide.xml', xml);
+          console.log('✅ Logos applied by site_id');
+          EOF
+
+      # --------------------------
+      # Save XML
+      # --------------------------
+      - name: Save XML
         run: |
           mkdir -p public
           cp epg/guide.xml public/epg-bein-mena-ar.xml
-
-      # --------------------------
-      # Add custom logos by site_id
-      # --------------------------
-      - name: Add beIN logos (by site_id)
-        run: |
-          node <<'EOF'
-          const fs = require('fs');
-          const path = 'public/epg-bein-mena-ar.xml';
-          let xml = fs.readFileSync(path, 'utf8');
-
-          const logos = {
-            "7836FEA9-6B39-4A1A-8352-DC5FCB97A16C": "https://upload.wikimedia.org/wikipedia/commons/6/6c/1-HD.png", // beIN 1
-            "FD1DD7DD-1E7B-4AA2-8682-BFA17338E653": "https://upload.wikimedia.org/wikipedia/commons/5/51/2-HD.png", // beIN 2
-            "8AEA2426-D451-4BA5-BF48-114A1F04B1A8": "https://upload.wikimedia.org/wikipedia/commons/f/fe/3-HD.png", // beIN 3
-            "DB9361E8-B3EB-4D6F-9A82-75B5F09E2F92": "https://upload.wikimedia.org/wikipedia/commons/d/d1/4-HD.png", // beIN 4
-            "964E6246-CA95-410B-82C4-EA75DD979435": "https://upload.wikimedia.org/wikipedia/commons/f/f5/5-HD.png", // beIN 5
-            "E24D9C11-A8B4-4C7F-AD3E-B3364FB6D5A2": "https://upload.wikimedia.org/wikipedia/commons/1/1d/6-HD.png", // beIN 6
-            "A892063B-A5D9-4199-95AC-6A214515FA6B": "https://upload.wikimedia.org/wikipedia/commons/2/27/7-HD.png", // beIN 7
-            "0F8D20A4-D46C-4B18-9242-8E7B3E978FF8": "https://upload.wikimedia.org/wikipedia/commons/c/cf/8-HD.png", // beIN 8
-            "5C08D9D3-C713-4F1F-947E-87C761428B9B": "https://upload.wikimedia.org/wikipedia/commons/2/2f/9-HD.png"  // beIN 9
-          };
-
-          xml = xml.replace(/(<channel[^>]*site_id="([^"]+)"[^>]*>)([\s\S]*?)(<\/channel>)/gi,
-            (match, start, site_id, middle, end) => {
-              if (logos[site_id]) {
-                let cleaned = middle.replace(/<icon[^>]*\/>/gi, '');
-                return `${start}<icon src="${logos[site_id]}"/>${cleaned}${end}`;
-              }
-              return match;
-            }
-          );
-
-          fs.writeFileSync(path, xml);
-          console.log("✅ Logos applied using site_id");
-          EOF
+          echo "✅ EPG saved to public/epg-bein-mena-ar.xml"
 
       # --------------------------
       # Commit & Push
@@ -107,5 +107,5 @@ jobs:
           git config user.email "actions@github.com"
           git add public/epg-bein-mena-ar.xml
           git diff-index --quiet HEAD || git commit -m "Update beIN Sports MENA AR EPG with logos"
-          git pull --rebase origin main
-          git push origin main
+          git pull --rebase origin master
+          git push origin master
